@@ -1,16 +1,28 @@
-function addEventsHandleButtons() {
-  const buttonX = document.getElementById('X')
-  const buttonO = document.getElementById('O')
+// function addEventsHandleButtons() {
+//   const buttonX = document.getElementById('X')
+//   const buttonO = document.getElementById('O')
   
-  buttonX.addEventListener('click', function() {
-    buttonO.classList.remove('selected');
-    buttonX.classList.add('selected');
-  })
-  buttonO.addEventListener('click', function() {
-    buttonX.classList.remove('selected');
-    buttonO.classList.add('selected');
-  })
-}
+//   buttonX.addEventListener('click', function() {
+//     buttonO.classList.remove('selected');
+//     buttonX.classList.add('selected');
+//   })
+//   buttonO.addEventListener('click', function() {
+//     buttonX.classList.remove('selected');
+//     buttonO.classList.add('selected');
+//   })
+// }
+
+function addEventsHandleButtons() {
+  const buttonChange = document.getElementsByClassName('buttonChange')
+
+  for (let index = 0; index < buttonChange.length; index += 1) {
+    buttonChange[index].addEventListener('click', function(event) {
+      const selected = document.querySelector('.selected')
+      selected.classList.remove('selected')
+      event.target.classList.add('selected')
+    })
+  }
+} 
 
 function reloadGame() {
   const buttonReset = document.getElementById('reset')
@@ -22,12 +34,13 @@ function reloadGame() {
 
 function createTableGame() {
   const tabuleiro = document.getElementById('tabuleiro');
-    for ( let index = 0; index < 9; index += 1 ) {
-    const pixel = document.createElement('div');
-    pixel.id = (index + 1)
-    pixel.className = 'coluna'
-    pixel.addEventListener('click', jogar)
-    tabuleiro.appendChild(pixel)
+
+  for ( let index = 0; index < 9; index += 1 ) {
+      const pixel = document.createElement('div');
+      pixel.id = (index + 1)
+      pixel.className = 'coluna'
+      pixel.addEventListener('click', jogar)
+      tabuleiro.appendChild(pixel)
   }
 }
 
@@ -39,7 +52,6 @@ function jogar (event) {
 
   table[event.target.id -1] = buttonSelected.innerText;
 
-
   if (event.target.innerText === 'X') {
     event.target.style.backgroundColor = '#e56e07'
   } else {
@@ -48,7 +60,8 @@ function jogar (event) {
   }
 
   const msg = checkWinner();
-
+  
+  console.log(msg)
   if (msg !== undefined) {
     const mensagem = document.querySelector('.mensagem')
     const p = document.createElement('p');
@@ -92,9 +105,9 @@ function checkWinner() {
     return ('Parabéns: ' + table[3] + ' é o vencedor')
   } 
 
+
   let count = 0;
   for (let index = 0; index < table.length; index += 1) {
-    
     if (typeof table[index] !== 'number' ) {
       count += 1;
     }
